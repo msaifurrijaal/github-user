@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">Submission Github User</string>
+    <string name="app_name">GithubUser App</string>
+    <string name="tab_text_1">Follower</string>
+    <string name="tab_text_2">Following</string>
+    <string name="username">Username</string>
+    <string name="search">Search</string>
+    <string name="search_github_users">Search GitHub users</string>
+    <string name="menu_1">Favorit</string>
+    <string name="menu_2">Setting</string>
+    <string name="dark_mode">Dark Mode  </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

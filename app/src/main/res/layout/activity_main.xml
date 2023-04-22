@@ -4,15 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <TextView
+        android:id="@+id/tv_tag_line_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/search_github_users"
+        android:textStyle="bold"
+        android:textSize="@dimen/h5"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginHorizontal="@dimen/normal_125"
+        android:layout_marginTop="@dimen/normal_100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tag_line_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Discover the world of code with ease"
+        android:textSize="@dimen/subtitle_2"
+        android:textColor="@color/text_second"
+        app:layout_constraintStart_toStartOf="@+id/tv_tag_line_1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tag_line_1"
+        app:layout_constraintEnd_toEndOf="@id/tv_tag_line_1"/>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/et_search_main"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/edit_text_search_height"
+        android:layout_marginTop="@dimen/normal_100"
+        android:paddingVertical="@dimen/normal_75"
+        android:paddingEnd="@dimen/normal_125"
+        android:background="@drawable/bg_edit_text"
+        android:elevation="@dimen/small_50"
+        android:queryHint="Search"
+        android:iconifiedByDefault="true"
+        app:iconifiedByDefault="false"
+        app:layout_constraintStart_toStartOf="@id/tv_tag_line_2"
+        app:layout_constraintEnd_toEndOf="@id/tv_tag_line_2"
+        app:layout_constraintTop_toBottomOf="@id/tv_tag_line_2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_user"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/et_search_main"
+        app:layout_constraintEnd_toEndOf="@+id/et_search_main"
+        app:layout_constraintStart_toStartOf="@+id/et_search_main"
+        android:layout_marginTop="@dimen/normal_100"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_search"
+        android:layout_width="@dimen/image_user_profile_large"
+        android:layout_height="@dimen/image_user_profile_large"
+        android:src="@drawable/baseline_search_24"
+        app:tint="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_empty"
+        android:layout_width="@dimen/image_user_profile_large"
+        android:layout_height="@dimen/image_user_profile_large"
+        android:src="@drawable/baseline_not_interested_24"
+        app:tint="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Search..."
+        app:layout_constraintTop_toBottomOf="@+id/iv_search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/normal_175"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/h6" />
+
+    <ProgressBar
+        android:id="@+id/pg_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
