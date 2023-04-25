@@ -27,6 +27,8 @@
     <dimen name="image_course_home_height">160dp</dimen>
     <dimen name="image_user_profile_normal">48dp</dimen>
     <dimen name="image_user_profile_large">100dp</dimen>
+    <dimen name="image_user_profile_extra_large">200dp</dimen>
+
 
     <dimen name="h1">96sp</dimen>
     <dimen name="h2">60sp</dimen>

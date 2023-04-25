@@ -17,7 +17,7 @@ data class ResponseDetailUser(
 	var followingUrl: String? = null,
 
 	@field:SerializedName("twitter_username")
-	var twitterUsername: Any? = null,
+	var twitterUsername: String? = null,
 
 	@field:SerializedName("bio")
 	var bio: String? = null,
@@ -57,13 +57,13 @@ data class ResponseDetailUser(
 	var gravatarId: String? = null,
 
 	@field:SerializedName("email")
-	var email: Any? = null,
+	var email: String? = null,
 
 	@field:SerializedName("organizations_url")
 	var organizationsUrl: String? = null,
 
 	@field:SerializedName("hireable")
-	var hireable: Any? = null,
+	var hireable: String? = null,
 
 	@field:SerializedName("starred_url")
 	var starredUrl: String? = null,
@@ -99,7 +99,7 @@ data class ResponseDetailUser(
 	var name: String? = null,
 
 	@field:SerializedName("location")
-	var location: Any? = null,
+	var location: String? = null,
 
 	@field:SerializedName("node_id")
 	var nodeId: String? = null,

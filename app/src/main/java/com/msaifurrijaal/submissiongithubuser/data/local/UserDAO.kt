@@ -1,6 +1,6 @@
 package com.msaifurrijaal.submissiongithubuser.data.local
 
-import android.database.Cursor
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -9,17 +9,17 @@ import androidx.room.Query
 import com.msaifurrijaal.submissiongithubuser.model.ResponseDetailUser
 
 @Dao
-interface UserDAO {
+interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertUser(user: ResponseDetailUser)
+    fun upsertFavUser(user: ResponseDetailUser)
 
     @Delete
-    suspend fun deleteUser(user: ResponseDetailUser)
+    fun deleteFavUser(user: ResponseDetailUser)
 
     @Query("SELECT * FROM userDetail ORDER BY login ASC")
-    suspend fun getAllFavoriteUser(): List<ResponseDetailUser>
+    fun getAllFavUser() : List<ResponseDetailUser>
 
-    @Query("SELECT * FROM userDetail WHERE login = :username")
-    suspend fun getFavoriteUser(username: String): ResponseDetailUser?
+    @Query("SELECT * FROM userDetail WHERE login=:username")
+    fun getFavUser(username: String) : ResponseDetailUser?
 }

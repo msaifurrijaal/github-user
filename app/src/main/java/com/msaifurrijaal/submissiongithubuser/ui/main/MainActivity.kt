@@ -28,6 +28,7 @@ import com.msaifurrijaal.submissiongithubuser.model.ResponseItemSearch
 import com.msaifurrijaal.submissiongithubuser.model.ResponseSearchUser
 import com.msaifurrijaal.submissiongithubuser.ui.adapter.UserAdapter
 import com.msaifurrijaal.submissiongithubuser.ui.detail.DetailActivity
+import com.msaifurrijaal.submissiongithubuser.ui.favorite.FavoriteActivity
 import com.msaifurrijaal.submissiongithubuser.ui.setting.SettingActivity
 import com.msaifurrijaal.submissiongithubuser.ui.setting.SettingViewModel
 import com.msaifurrijaal.submissiongithubuser.ui.setting.ViewModelFactory
@@ -96,7 +97,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, DetailActivity::class.java)
                     .putExtra(USER_USERNAME, it.login)
-                    .putExtra(TYPE_INTENT, USER_API)
             )
         }
 
@@ -104,10 +104,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun errorAction(errorMessage: Resource.Error<ResponseSearchUser>) {
         if (errorMessage != null) {
-            Log.d("MainActivity", errorMessage.message.toString())
             binding.apply {
                 pgMain.visibility = View.INVISIBLE
                 rvUser.visibility = View.INVISIBLE
+                ivSearch.visibility = View.INVISIBLE
                 ivEmpty.visibility = View.VISIBLE
                 tvMessage.text = errorMessage.message.toString()
                 tvMessage.visibility = View.VISIBLE
@@ -119,17 +119,22 @@ class MainActivity : AppCompatActivity() {
         userAdapter.setUser(listUser.items as List<ResponseItemSearch>)
         binding.apply {
             pgMain.visibility = View.INVISIBLE
-            rvUser.visibility = View.VISIBLE
             ivEmpty.visibility = View.INVISIBLE
+            ivSearch.visibility = View.INVISIBLE
+            tvMessage.visibility = View.INVISIBLE
+            rvUser.visibility = View.VISIBLE
         }
     }
 
 
     private fun loadingAction() {
         binding.apply {
-            pgMain.visibility = View.VISIBLE
             rvUser.visibility = View.INVISIBLE
             ivEmpty.visibility = View.INVISIBLE
+            ivSearch.visibility = View.INVISIBLE
+            tvMessage.visibility = View.INVISIBLE
+            pgMain.visibility = View.VISIBLE
+
         }
     }
 
@@ -159,7 +164,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu1 -> {
-
+                val i = Intent(this, FavoriteActivity::class.java)
+                startActivity(i)
                 return true
             }
             R.id.menu2 -> {

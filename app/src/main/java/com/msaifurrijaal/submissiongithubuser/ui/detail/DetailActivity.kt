@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,6 +18,8 @@ import com.msaifurrijaal.submissiongithubuser.data.Resource
 import com.msaifurrijaal.submissiongithubuser.databinding.ActivityDetailBinding
 import com.msaifurrijaal.submissiongithubuser.model.ResponseDetailUser
 import com.msaifurrijaal.submissiongithubuser.ui.adapter.SectionsPagerAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
 
@@ -70,15 +73,17 @@ class DetailActivity : AppCompatActivity() {
     private fun setInformationUser() {
         loadingAction()
         username?.let {
-            detailViewModel.getDetailUser(username).observe(this@DetailActivity, { response ->
-                when(response) {
-                    is Resource.Error -> errorAction(response)
-                    is Resource.Loading -> loadingAction()
-                    is Resource.Success -> response.data?.let {
-                        successAction(it)
+            lifecycleScope.launch(Dispatchers.Main) {
+                detailViewModel.getDetailUser(username).observe(this@DetailActivity, { response ->
+                    when(response) {
+                        is Resource.Error -> errorAction(response)
+                        is Resource.Loading -> loadingAction()
+                        is Resource.Success -> response.data?.let {
+                            successAction(it)
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     }
 
