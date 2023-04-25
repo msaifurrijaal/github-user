@@ -21,4 +21,16 @@ class DetailViewModel(application: Application): AndroidViewModel(application) {
         return detailUser!!
     }
 
+    fun inserFavUser(user: ResponseDetailUser) {
+        viewModelScope.launch {
+            repository.insertFavUser(user)
+        }
+    }
+
+    fun deleteFavUser(user: ResponseDetailUser) {
+        viewModelScope.launch {
+            repository.deleteFavUser(user)
+        }
+    }
+
 }

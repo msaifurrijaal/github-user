@@ -3,6 +3,8 @@ package com.msaifurrijaal.submissiongithubuser.data
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.msaifurrijaal.submissiongithubuser.data.local.UserDAO
+import com.msaifurrijaal.submissiongithubuser.data.local.UserFavoriteDatabase
 import com.msaifurrijaal.submissiongithubuser.data.remote.GithubApiService
 import com.msaifurrijaal.submissiongithubuser.data.remote.RetrofitService
 import com.msaifurrijaal.submissiongithubuser.model.ResponseDetailUser
@@ -15,9 +17,12 @@ import retrofit2.Response
 class Repository(private val application: Application) {
 
     private val retrofit: GithubApiService
+    private val dao: UserDAO
 
     init {
         retrofit = RetrofitService.getApiService()
+        val dbUser: UserFavoriteDatabase = UserFavoriteDatabase.getInstance(application)
+        dao = dbUser.userFavDao()
     }
 
     fun searchUser(q: String): LiveData<Resource<ResponseSearchUser>> {
@@ -115,6 +120,10 @@ class Repository(private val application: Application) {
         })
         return detailUser
     }
+
+    suspend fun insertFavUser(user: ResponseDetailUser) = dao.upsertUser(user)
+
+    suspend fun deleteFavUser(user: ResponseDetailUser) = dao.deleteUser(user)
 
 
 }

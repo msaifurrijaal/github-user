@@ -93,6 +93,25 @@ class DetailActivity : AppCompatActivity() {
             tvCompanyName.text = userProfil.company
             tvCountFollower.text = userProfil.followers.toString()
             tvCountFollowing.text = userProfil.following.toString()
+
+            if (userProfil.isFavorite == true)
+                ivFavorite.setImageDrawable(resources.getDrawable(R.drawable.baseline_favorite_24))
+            else
+                ivFavorite.setImageDrawable(resources.getDrawable(R.drawable.baseline_favorite_border_24))
+
+            ivFavorite.setOnClickListener {
+                if (userProfil.isFavorite == true) {
+                    userProfil.isFavorite = false
+                    detailViewModel.deleteFavUser(userProfil)
+                    ivFavorite.setImageDrawable(resources.getDrawable(R.drawable.baseline_favorite_border_24))
+                } else {
+                    userProfil.isFavorite = true
+                    userProfil?.let {
+                        detailViewModel.inserFavUser(it)
+                    }
+                    ivFavorite.setImageDrawable(resources.getDrawable(R.drawable.baseline_favorite_24))
+                }
+            }
             responseAction()
         }
     }
@@ -107,6 +126,7 @@ class DetailActivity : AppCompatActivity() {
             tvCountFollower.visibility = View.INVISIBLE
             tvCountFollowing.visibility = View.INVISIBLE
             pgDetail.visibility = View.INVISIBLE
+            ivFavorite.visibility = View.INVISIBLE
             ivErrorMessage.visibility = View.VISIBLE
             tvMessage.visibility = View.VISIBLE
         }
@@ -124,6 +144,7 @@ class DetailActivity : AppCompatActivity() {
             tvFollowing.visibility = View.VISIBLE
             tvCountFollower.visibility = View.VISIBLE
             tvCountFollowing.visibility = View.VISIBLE
+            ivFavorite.visibility = View.VISIBLE
         }
     }
 
@@ -138,6 +159,7 @@ class DetailActivity : AppCompatActivity() {
             tvCountFollowing.visibility = View.INVISIBLE
             ivErrorMessage.visibility = View.INVISIBLE
             tvMessage.visibility = View.INVISIBLE
+            ivFavorite.visibility = View.INVISIBLE
             pgDetail.visibility = View.VISIBLE
         }
     }

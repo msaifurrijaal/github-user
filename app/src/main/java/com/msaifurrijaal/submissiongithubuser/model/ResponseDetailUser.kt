@@ -1,102 +1,110 @@
 package com.msaifurrijaal.submissiongithubuser.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "userDetail")
 data class ResponseDetailUser(
 
 	@field:SerializedName("gists_url")
-	val gistsUrl: String? = null,
+	var gistsUrl: String? = null,
 
 	@field:SerializedName("repos_url")
-	val reposUrl: String? = null,
+	var reposUrl: String? = null,
 
 	@field:SerializedName("following_url")
-	val followingUrl: String? = null,
+	var followingUrl: String? = null,
 
 	@field:SerializedName("twitter_username")
-	val twitterUsername: Any? = null,
+	var twitterUsername: Any? = null,
 
 	@field:SerializedName("bio")
-	val bio: String? = null,
+	var bio: String? = null,
 
 	@field:SerializedName("created_at")
-	val createdAt: String? = null,
+	var createdAt: String? = null,
 
 	@field:SerializedName("login")
-	val login: String? = null,
+	var login: String? = null,
 
 	@field:SerializedName("type")
-	val type: String? = null,
+	var type: String? = null,
 
 	@field:SerializedName("blog")
-	val blog: String? = null,
+	var blog: String? = null,
 
 	@field:SerializedName("subscriptions_url")
-	val subscriptionsUrl: String? = null,
+	var subscriptionsUrl: String? = null,
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
+	var updatedAt: String? = null,
 
 	@field:SerializedName("site_admin")
-	val siteAdmin: Boolean? = null,
+	var siteAdmin: Boolean? = null,
 
 	@field:SerializedName("company")
-	val company: String? = null,
+	var company: String? = null,
 
+	@PrimaryKey
 	@field:SerializedName("id")
-	val id: Int? = null,
+	var id: Int? = null,
 
 	@field:SerializedName("public_repos")
-	val publicRepos: Int? = null,
+	var publicRepos: Int? = null,
 
 	@field:SerializedName("gravatar_id")
-	val gravatarId: String? = null,
+	var gravatarId: String? = null,
 
 	@field:SerializedName("email")
-	val email: Any? = null,
+	var email: Any? = null,
 
 	@field:SerializedName("organizations_url")
-	val organizationsUrl: String? = null,
+	var organizationsUrl: String? = null,
 
 	@field:SerializedName("hireable")
-	val hireable: Any? = null,
+	var hireable: Any? = null,
 
 	@field:SerializedName("starred_url")
-	val starredUrl: String? = null,
+	var starredUrl: String? = null,
 
 	@field:SerializedName("followers_url")
-	val followersUrl: String? = null,
+	var followersUrl: String? = null,
 
 	@field:SerializedName("public_gists")
-	val publicGists: Int? = null,
+	var publicGists: Int? = null,
 
 	@field:SerializedName("url")
-	val url: String? = null,
+	var url: String? = null,
 
 	@field:SerializedName("received_events_url")
-	val receivedEventsUrl: String? = null,
+	var receivedEventsUrl: String? = null,
 
 	@field:SerializedName("followers")
-	val followers: Int? = null,
+	var followers: Int? = null,
 
 	@field:SerializedName("avatar_url")
-	val avatarUrl: String? = null,
+	var avatarUrl: String? = null,
 
 	@field:SerializedName("events_url")
-	val eventsUrl: String? = null,
+	var eventsUrl: String? = null,
 
 	@field:SerializedName("html_url")
-	val htmlUrl: String? = null,
+	var htmlUrl: String? = null,
 
 	@field:SerializedName("following")
-	val following: Int? = null,
+	var following: Int? = null,
 
 	@field:SerializedName("name")
-	val name: String? = null,
+	var name: String? = null,
 
 	@field:SerializedName("location")
-	val location: Any? = null,
+	var location: Any? = null,
 
 	@field:SerializedName("node_id")
-	val nodeId: String? = null
+	var nodeId: String? = null,
+
+	@field:SerializedName("is_favorite")
+	var isFavorite: Boolean? = false,
+
 )
