@@ -17,8 +17,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.msaifurrijaal.submissiongithubuser.Constants.TYPE_INTENT
-import com.msaifurrijaal.submissiongithubuser.Constants.USER_API
 import com.msaifurrijaal.submissiongithubuser.Constants.USER_USERNAME
 import com.msaifurrijaal.submissiongithubuser.R
 import com.msaifurrijaal.submissiongithubuser.data.Resource
@@ -74,15 +72,15 @@ class MainActivity : AppCompatActivity() {
                     clearFocus()
                     binding.ivSearch.visibility = View.INVISIBLE
                     binding.tvMessage.visibility = View.INVISIBLE
-                    mainViewModel.searchUser(query!!).observe(this@MainActivity, { response ->
-                        when(response) {
+                    mainViewModel.searchUser(query!!).observe(this@MainActivity) { response ->
+                        when (response) {
                             is Resource.Error -> errorAction(response)
                             is Resource.Loading -> loadingAction()
                             is Resource.Success -> response.data?.let {
                                 successAction(it)
                             }
                         }
-                    })
+                    }
                     return true
                 }
 

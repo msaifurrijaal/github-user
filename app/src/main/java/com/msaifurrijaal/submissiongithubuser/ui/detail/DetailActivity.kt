@@ -81,6 +81,8 @@ class DetailActivity : AppCompatActivity() {
                         is Resource.Success -> response.data?.let {
                             successAction(it)
                         }
+
+                        else -> {}
                     }
                 })
             }
