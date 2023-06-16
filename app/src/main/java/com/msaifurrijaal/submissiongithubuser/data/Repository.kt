@@ -3,11 +3,15 @@ package com.msaifurrijaal.submissiongithubuser.data
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.msaifurrijaal.submissiongithubuser.data.local.UserDao
+import com.msaifurrijaal.submissiongithubuser.data.local.UserFavDB
 import com.msaifurrijaal.submissiongithubuser.data.remote.GithubApiService
 import com.msaifurrijaal.submissiongithubuser.data.remote.RetrofitService
 import com.msaifurrijaal.submissiongithubuser.model.ResponseDetailUser
 import com.msaifurrijaal.submissiongithubuser.model.ResponseItemFollow
 import com.msaifurrijaal.submissiongithubuser.model.ResponseSearchUser
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,9 +19,12 @@ import retrofit2.Response
 class Repository(private val application: Application) {
 
     private val retrofit: GithubApiService
+    private val dao: UserDao
 
     init {
         retrofit = RetrofitService.getApiService()
+        val dbUser: UserFavDB = UserFavDB.getInstance(application)
+        dao = dbUser.userDao()
     }
 
     fun searchUser(q: String): LiveData<Resource<ResponseSearchUser>> {
@@ -92,29 +99,50 @@ class Repository(private val application: Application) {
         return following
     }
 
-    suspend fun getDetailUser(username: String): LiveData<Resource<ResponseDetailUser>> {
+    suspend fun getDetailUser(username: String): LiveData<Resource<ResponseDetailUser>> = withContext(Dispatchers.IO) {
         val detailUser = MutableLiveData<Resource<ResponseDetailUser>>()
 
-        retrofit.getDetailUser(username).enqueue(object : Callback<ResponseDetailUser> {
-            override fun onResponse(
-                call: Call<ResponseDetailUser>,
-                response: Response<ResponseDetailUser>
-            ) {
-                if (response.isSuccessful) {
-                    val detail = response.body()
-                    detailUser.postValue(Resource.Success(detail))
-                } else {
-                    detailUser.postValue(Resource.Error(response.message()))
+        if(dao.getFavUser(username) != null) {
+            detailUser.postValue(Resource.Success(dao.getFavUser(username)))
+        } else {
+            retrofit.getDetailUser(username).enqueue(object : Callback<ResponseDetailUser> {
+                override fun onResponse(
+                    call: Call<ResponseDetailUser>,
+                    response: Response<ResponseDetailUser>
+                ) {
+                    if (response.isSuccessful) {
+                        val detail = response.body()
+                        detailUser.postValue(Resource.Success(detail))
+                    } else {
+                        detailUser.postValue(Resource.Error(response.message()))
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ResponseDetailUser>, t: Throwable) {
-                detailUser.postValue(Resource.Error(t.message.toString()))
-            }
+                override fun onFailure(call: Call<ResponseDetailUser>, t: Throwable) {
+                    detailUser.postValue(Resource.Error(t.message.toString()))
+                }
 
-        })
-        return detailUser
+            })
+        }
+        return@withContext detailUser
     }
+
+    suspend fun getFavUserList(): LiveData<Resource<List<ResponseDetailUser>>> = withContext(Dispatchers.IO) {
+
+        val listFavUser = MutableLiveData<Resource<List<ResponseDetailUser>>>()
+        listFavUser.postValue(Resource.Loading())
+
+        if (dao.getAllFavUser().isNullOrEmpty())
+            listFavUser.postValue(Resource.Error(null))
+        else
+            listFavUser.postValue(Resource.Success(dao.getAllFavUser()))
+
+        return@withContext listFavUser
+    }
+
+    suspend fun insertFavUser(user: ResponseDetailUser) = dao.upsertFavUser(user)
+
+    suspend fun deleteFavUser(user: ResponseDetailUser) = dao.deleteFavUser(user)
 
 
 }

@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,6 +18,8 @@ import com.msaifurrijaal.submissiongithubuser.data.Resource
 import com.msaifurrijaal.submissiongithubuser.databinding.ActivityDetailBinding
 import com.msaifurrijaal.submissiongithubuser.model.ResponseDetailUser
 import com.msaifurrijaal.submissiongithubuser.ui.adapter.SectionsPagerAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
 
@@ -70,15 +73,19 @@ class DetailActivity : AppCompatActivity() {
     private fun setInformationUser() {
         loadingAction()
         username?.let {
-            detailViewModel.getDetailUser(username).observe(this@DetailActivity, { response ->
-                when(response) {
-                    is Resource.Error -> errorAction(response)
-                    is Resource.Loading -> loadingAction()
-                    is Resource.Success -> response.data?.let {
-                        successAction(it)
+            lifecycleScope.launch(Dispatchers.Main) {
+                detailViewModel.getDetailUser(username).observe(this@DetailActivity, { response ->
+                    when(response) {
+                        is Resource.Error -> errorAction(response)
+                        is Resource.Loading -> loadingAction()
+                        is Resource.Success -> response.data?.let {
+                            successAction(it)
+                        }
+
+                        else -> {}
                     }
-                }
-            })
+                })
+            }
         }
     }
 
@@ -93,6 +100,25 @@ class DetailActivity : AppCompatActivity() {
             tvCompanyName.text = userProfil.company
             tvCountFollower.text = userProfil.followers.toString()
             tvCountFollowing.text = userProfil.following.toString()
+
+            if (userProfil.isFavorite == true)
+                ivFavorite.setImageDrawable(resources.getDrawable(R.drawable.baseline_favorite_24))
+            else
+                ivFavorite.setImageDrawable(resources.getDrawable(R.drawable.baseline_favorite_border_24))
+
+            ivFavorite.setOnClickListener {
+                if (userProfil.isFavorite == true) {
+                    userProfil.isFavorite = false
+                    detailViewModel.deleteFavUser(userProfil)
+                    ivFavorite.setImageDrawable(resources.getDrawable(R.drawable.baseline_favorite_border_24))
+                } else {
+                    userProfil.isFavorite = true
+                    userProfil?.let {
+                        detailViewModel.inserFavUser(it)
+                    }
+                    ivFavorite.setImageDrawable(resources.getDrawable(R.drawable.baseline_favorite_24))
+                }
+            }
             responseAction()
         }
     }
@@ -107,6 +133,7 @@ class DetailActivity : AppCompatActivity() {
             tvCountFollower.visibility = View.INVISIBLE
             tvCountFollowing.visibility = View.INVISIBLE
             pgDetail.visibility = View.INVISIBLE
+            ivFavorite.visibility = View.INVISIBLE
             ivErrorMessage.visibility = View.VISIBLE
             tvMessage.visibility = View.VISIBLE
         }
@@ -124,6 +151,7 @@ class DetailActivity : AppCompatActivity() {
             tvFollowing.visibility = View.VISIBLE
             tvCountFollower.visibility = View.VISIBLE
             tvCountFollowing.visibility = View.VISIBLE
+            ivFavorite.visibility = View.VISIBLE
         }
     }
 
@@ -138,6 +166,7 @@ class DetailActivity : AppCompatActivity() {
             tvCountFollowing.visibility = View.INVISIBLE
             ivErrorMessage.visibility = View.INVISIBLE
             tvMessage.visibility = View.INVISIBLE
+            ivFavorite.visibility = View.INVISIBLE
             pgDetail.visibility = View.VISIBLE
         }
     }
